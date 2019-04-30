@@ -2,11 +2,12 @@ package stringslice
 
 import "sort"
 
+// StringSlice is an alias for []string that adds some functions
 type StringSlice []string
 
 // New is a convenience wrapper for treating a slice of strings as a "stringslice"
 func New(slice []string) StringSlice {
-	return StringSlice(slice)
+	return slice
 }
 
 // Sort returns a new slice that is the sorted copy of the slice it was called on. Unlike sort.Strings, it does not mutate the original slice
@@ -14,7 +15,7 @@ func (ss StringSlice) Sort() StringSlice {
 	ss2 := make(StringSlice, len(ss))
 	copy(ss2, ss)
 	sort.Strings(ss2)
-	return StringSlice(ss2)
+	return ss2
 }
 
 // Uniq returns a new slice that is sorted with all the duplicate strings removed.
@@ -51,7 +52,12 @@ func (ss StringSlice) Subtract(slice []string) StringSlice {
 			res = append(res, e)
 		}
 	}
-	return StringSlice(res)
+	return res
+}
+
+// Add is a convenience alias for append. it returns a nice slice with the passed slice appended
+func (ss StringSlice) Add(slice []string) StringSlice {
+	return append(ss, slice...)
 }
 
 // Map over each element in the slice and perform an operation on it. the result of the operation will replace the element value.
@@ -65,5 +71,5 @@ func (ss StringSlice) Map(f func(i int, s string) string) StringSlice {
 
 // Slice returns the stringslice typecast to a []string slice
 func (ss StringSlice) Slice() []string {
-	return []string(ss)
+	return ss
 }

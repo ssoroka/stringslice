@@ -30,6 +30,12 @@ func TestSubtraction(t *testing.T) {
 	}
 }
 
+func TestAdd(t *testing.T) {
+	assert.DeepEqual(t, []string{"a", "b"}, stringslice.New([]string{"a"}).Add([]string{"b"}).Slice())
+	assert.DeepEqual(t, []string{"a"}, stringslice.New([]string{"a"}).Add([]string{}).Slice())
+	assert.DeepEqual(t, []string{}, stringslice.New([]string{}).Add([]string{}).Slice())
+}
+
 func TestUniq(t *testing.T) {
 	type testCase struct {
 		input    []string
