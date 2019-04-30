@@ -11,3 +11,7 @@
 ```
 
 prints out `[BRAVO CHARLIE DELTA ECHO]`
+
+## install
+
+`go get github.com/ssoroka/stringslice`
