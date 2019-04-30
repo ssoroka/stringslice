@@ -1,5 +1,15 @@
 # stringslice
 
+Adds functions to string slices: 
+
+- Sort (does not mutate)
+- Uniq (currently implies also sorted)
+- Map
+- Subtract (subtract one slice's elements from another slice and return the result)
+- Add (add two slices together and return the result)
+
+## usage
+
 ```go
   s := []string{"echo", "alpha", "bravo", "delta", "charlie", "Charlie"}
 
