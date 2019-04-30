@@ -8,6 +8,20 @@ Adds functions to string slices:
 - Subtract (subtract one slice's elements from another slice and return the result)
 - Add (add two slices together and return the result)
 
+Future support; perhaps (let me know if you'd like to see one of these – @ssoroka on twitter):
+
+- compact (remove nils)
+- reject (aka delete_if)
+- each
+- contains (aka index)
+- join (alias from strings.Join)
+- pop
+- push
+- shift
+- unshift
+- reverse
+- sort_by (like sort, but you can give the sorting function)
+
 ## usage
 
 ```go
