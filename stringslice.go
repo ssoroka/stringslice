@@ -12,6 +12,9 @@ func New(slice []string) StringSlice {
 
 // Sort returns a new slice that is the sorted copy of the slice it was called on. Unlike sort.Strings, it does not mutate the original slice
 func (ss StringSlice) Sort() StringSlice {
+	if ss == nil {
+		return nil
+	}
 	ss2 := make(StringSlice, len(ss))
 	copy(ss2, ss)
 	sort.Strings(ss2)
@@ -20,6 +23,9 @@ func (ss StringSlice) Sort() StringSlice {
 
 // Uniq returns a new slice that is sorted with all the duplicate strings removed.
 func (ss StringSlice) Uniq() StringSlice {
+	if ss == nil {
+		return nil
+	}
 	ss2 := ss.Sort()
 
 	result := make(StringSlice, 0, len(ss))
@@ -62,9 +68,14 @@ func (ss StringSlice) Add(slice []string) StringSlice {
 
 // Map over each element in the slice and perform an operation on it. the result of the operation will replace the element value.
 func (ss StringSlice) Map(f func(i int, s string) string) StringSlice {
+	if ss == nil {
+		return nil
+	}
 	result := make(StringSlice, len(ss))
 	for i, s := range ss {
-		result[i] = f(i, s)
+		if f != nil {
+			result[i] = f(i, s)
+		}
 	}
 	return result
 }
