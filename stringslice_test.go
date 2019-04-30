@@ -2,6 +2,7 @@ package stringslice_test
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -76,7 +77,24 @@ func TestMap(t *testing.T) {
 
 	assert.DeepEqual(t, []string(nil), stringslice.New(nil).Map(nil).Slice())
 	assert.DeepEqual(t, []string{}, stringslice.New([]string{}).Map(nil).Slice())
-	assert.DeepEqual(t, []string{""}, stringslice.New([]string{"a"}).Map(nil).Slice())
+	assert.DeepEqual(t, []string{"a"}, stringslice.New([]string{"a"}).Map(nil).Slice())
+
+	assert.DeepEqual(t, []string{"FISH"}, stringslice.New([]string{"fish"}).Map(strings.ToUpper).Slice())
+	assert.DeepEqual(t, []string{"fish"}, stringslice.New([]string{" fish "}).Map(strings.TrimSpace).Slice())
+}
+
+func TestReduce(t *testing.T) {
+	s := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
+
+	// sum up strings as if they were ints.
+	result := stringslice.New(s).Reduce("0", func(acc string, i int, s string) string {
+		accumulator, _ := strconv.Atoi(acc)
+		current, _ := strconv.Atoi(s)
+		s = strconv.Itoa(accumulator + current)
+		return s
+	})
+
+	assert.Equal(t, "55", result)
 }
 
 func TestReadme(t *testing.T) {

@@ -1,6 +1,9 @@
 package stringslice
 
-import "sort"
+import (
+	"fmt"
+	"sort"
+)
 
 // StringSlice is an alias for []string that adds some functions
 type StringSlice []string
@@ -67,17 +70,43 @@ func (ss StringSlice) Add(slice []string) StringSlice {
 }
 
 // Map over each element in the slice and perform an operation on it. the result of the operation will replace the element value.
-func (ss StringSlice) Map(f func(i int, s string) string) StringSlice {
+// Normal func structure is func(i int, s string) string.
+// Also accepts func structure func(s string) string
+func (ss StringSlice) Map(funcInterface interface{}) StringSlice {
 	if ss == nil {
 		return nil
 	}
+	if funcInterface == nil {
+		return ss
+	}
+	f := func(i int, s string) string {
+		switch tf := funcInterface.(type) {
+		case func(int, string) string:
+			return tf(i, s)
+		case func(string) string:
+			return tf(s)
+		}
+		panic(fmt.Sprintf("Map cannot understand function type %T", funcInterface))
+	}
 	result := make(StringSlice, len(ss))
 	for i, s := range ss {
-		if f != nil {
-			result[i] = f(i, s)
-		}
+		result[i] = f(i, s)
 	}
 	return result
+}
+
+type AccumulatorFunc func(acc string, i int, s string) string
+
+// Reduce (aka inject) iterates over the slice of items and calls the accumulator function for each pass, storing the state in the acc variable through each pass.
+func (ss StringSlice) Reduce(initialAccumulator string, f AccumulatorFunc) string {
+	if ss == nil {
+		return ""
+	}
+	acc := initialAccumulator
+	for i, s := range ss {
+		acc = f(acc, i, s)
+	}
+	return acc
 }
 
 // Slice returns the stringslice typecast to a []string slice

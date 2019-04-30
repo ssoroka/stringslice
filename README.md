@@ -5,6 +5,7 @@ Adds functions to string slices:
 - Sort (does not mutate)
 - Uniq (currently implies also sorted)
 - Map
+- Reduce (aka inject)
 - Subtract (subtract one slice's elements from another slice and return the result)
 - Add (add two slices together and return the result)
 
@@ -12,6 +13,7 @@ Future support; perhaps (let me know if you'd like to see one of these – @ssor
 
 - compact (remove nils)
 - reject (aka delete_if)
+- select (aka filter)
 - each
 - contains (aka index)
 - join (alias from strings.Join)
