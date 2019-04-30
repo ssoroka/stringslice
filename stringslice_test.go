@@ -1,6 +1,7 @@
 package stringslice_test
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
@@ -57,4 +58,14 @@ func TestMap(t *testing.T) {
 	expected := []string{"A", "B", "C"}
 
 	assert.DeepEqual(t, expected, result)
+}
+
+func TestReadme(t *testing.T) {
+	s := []string{"echo", "alpha", "bravo", "delta", "charlie", "Charlie"}
+
+	s2 := stringslice.New(s).Sort().Map(func(i int, s string) string {
+		return strings.ToUpper(s)
+	}).Subtract([]string{"ALPHA"}).Uniq().Slice()
+
+	fmt.Println(s2)
 }
