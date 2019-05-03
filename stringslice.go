@@ -14,17 +14,18 @@ func New(slice []string) StringSlice {
 }
 
 // Sort returns a new slice that is the sorted copy of the slice it was called on. Unlike sort.Strings, it does not mutate the original slice
-func (ss StringSlice) Sort() StringSlice {
+func (ss StringSlice) Sort() SortedSlice {
 	if ss == nil {
 		return nil
 	}
 	ss2 := make(StringSlice, len(ss))
 	copy(ss2, ss)
 	sort.Strings(ss2)
-	return ss2
+	return SortedSlice(ss2)
 }
 
 // Uniq returns a new slice that is sorted with all the duplicate strings removed.
+// Note: sorting the string first will make this much faster.
 func (ss StringSlice) Uniq() StringSlice {
 	if ss == nil {
 		return nil
@@ -112,4 +113,47 @@ func (ss StringSlice) Reduce(initialAccumulator string, f AccumulatorFunc) strin
 // Slice returns the stringslice typecast to a []string slice
 func (ss StringSlice) Slice() []string {
 	return ss
+}
+
+// Contains returns true if the string is in the slice.
+// Note: If you .Sort() the slice first, this function will do a log2(n) binary search through the list, which is much faster for large lists.
+func (ss StringSlice) Contains(s string) bool {
+	return ss.Index(s) != -1
+}
+
+// Index returns the index of string in the slice, otherwise -1 if the string is not found.
+// Note: If you .Sort() the slice first, this function will do a log2(n) binary search through the list, which is much faster for large lists.
+func (ss StringSlice) Index(s string) int {
+	for i, b := range ss {
+		if b == s {
+			return i
+		}
+	}
+	return -1
+}
+
+// First returns the First element, or "" if there are no elements in the slice.
+func (ss StringSlice) First() string {
+	if len(ss) >= 1 {
+		return ss[0]
+	}
+	return ""
+}
+
+// Last returns the Last element, or "" if there are no elements in the slice.
+func (ss StringSlice) Last() string {
+	if len(ss) >= 1 {
+		return ss[len(ss)-1]
+	}
+	return ""
+}
+
+// Any returns true if the length is greater than zero
+func (ss StringSlice) Any() bool {
+	return len(ss) != 0
+}
+
+// Len returns the slice length for convenience
+func (ss StringSlice) Len() int {
+	return len(ss)
 }

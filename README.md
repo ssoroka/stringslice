@@ -8,6 +8,8 @@ Adds functions to string slices:
 - Reduce (aka inject)
 - Subtract (subtract one slice's elements from another slice and return the result)
 - Add (add two slices together and return the result)
+- Contains 
+- Index
 
 Future support; perhaps (let me know if you'd like to see one of these – @ssoroka on twitter):
 
@@ -15,7 +17,6 @@ Future support; perhaps (let me know if you'd like to see one of these – @ssor
 - reject (aka delete_if)
 - select (aka filter)
 - each
-- contains (aka index)
 - join (alias from strings.Join)
 - pop
 - push
