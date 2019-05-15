@@ -32,16 +32,16 @@ func TestSubtraction(t *testing.T) {
 	}
 	for _, test := range tests {
 		ss := stringslice.New(test.input)
-		result := ss.Subtract(test.args).Slice()
+		result := ss.Subtract(test.args...).Slice()
 
 		assert.DeepEqual(t, test.expected, result)
 	}
 }
 
 func TestAdd(t *testing.T) {
-	assert.DeepEqual(t, []string{"a", "b"}, stringslice.New([]string{"a"}).Add([]string{"b"}).Slice())
-	assert.DeepEqual(t, []string{"a"}, stringslice.New([]string{"a"}).Add([]string{}).Slice())
-	assert.DeepEqual(t, []string{}, stringslice.New([]string{}).Add([]string{}).Slice())
+	assert.DeepEqual(t, []string{"a", "b"}, stringslice.New([]string{"a"}).Add("b").Slice())
+	assert.DeepEqual(t, []string{"a"}, stringslice.New([]string{"a"}).Add([]string{}...).Slice())
+	assert.DeepEqual(t, []string{}, stringslice.New([]string{}).Add([]string{}...).Slice())
 }
 
 func TestUniq(t *testing.T) {
@@ -102,7 +102,7 @@ func TestReadme(t *testing.T) {
 
 	s2 := stringslice.New(s).Sort().Map(func(i int, s string) string {
 		return strings.ToUpper(s)
-	}).Subtract([]string{"ALPHA"}).Uniq().Slice()
+	}).Subtract("ALPHA").Uniq().Slice()
 
 	fmt.Println(s2)
 }
