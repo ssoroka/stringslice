@@ -2,6 +2,7 @@ package stringslice
 
 import (
 	"fmt"
+	"reflect"
 	"sort"
 )
 
@@ -178,4 +179,59 @@ func Last(ss []string) string {
 // Any returns true if the length is greater than zero
 func Any(ss []string) bool {
 	return len(ss) != 0
+}
+
+// ToStringSlice converts any slice of string-like types to a []string, and panics if the type cannot be converted.
+func ToStringSlice(o interface{}) []string {
+	v := reflect.ValueOf(o)
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
+	}
+	if v.Kind() != reflect.Slice && v.Kind() != reflect.Array {
+		panic("ToStringSlice cannot convert type " + v.Type().String() + " (kind " + v.Kind().String() + ") to slice.")
+	}
+	result := make([]string, v.Len())
+	for i := 0; i < v.Len(); i++ {
+		el := v.Index(i)
+		if el.Kind() != reflect.String {
+			panic(fmt.Sprintf("ToStringSlice failed to convert Element %d of slice to a string, it's a kind %s", i, el.Kind().String()))
+		}
+		result[i] = el.String()
+	}
+	return result
+}
+
+// GetKeys returns the string keys from any map type. It will panic if the type is not a string.
+func GetKeys(o interface{}) []string {
+	v := reflect.ValueOf(o)
+	if v.Kind() != reflect.Map {
+		panic("GetKeys expected a Map but received a kind " + v.Kind().String())
+	}
+
+	result := make([]string, v.Len())
+	for i, k := range v.MapKeys() {
+		if k.Kind() != reflect.String {
+			panic(fmt.Sprintf("GetKeys failed to convert map key to a string, it's a kind %s", k.Kind().String()))
+		}
+		result[i] = k.String()
+	}
+	return result
+}
+
+// GetValues returns the string values from any map type. It will panic if the type is not a string.
+func GetValues(o interface{}) []string {
+	v := reflect.ValueOf(o)
+	if v.Kind() != reflect.Map {
+		panic("GetValues expected a Map but received a kind " + v.Kind().String())
+	}
+
+	result := make([]string, v.Len())
+	for i, k := range v.MapKeys() {
+		val := v.MapIndex(k)
+		if val.Kind() != reflect.String {
+			panic(fmt.Sprintf("GetKeys failed to convert map key to a string, it's a kind %s", val.Kind().String()))
+		}
+		result[i] = val.String()
+	}
+	return result
 }

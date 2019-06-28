@@ -2,6 +2,7 @@ package stringslice_test
 
 import (
 	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
 	"testing"
@@ -105,4 +106,26 @@ func TestReadme(t *testing.T) {
 	}).Subtract("ALPHA").Uniq().Slice()
 
 	fmt.Println(s2)
+}
+
+type Thing string
+
+func TestToStringSlice(t *testing.T) {
+	a := []Thing{"A", "B"}
+	b := stringslice.ToStringSlice(a)
+	assert.Equal(t, reflect.TypeOf([]string{}), reflect.TypeOf(b))
+}
+
+func TestGetKeys(t *testing.T) {
+	a := map[string]int{"A": 1, "b": 2}
+	b := stringslice.GetKeys(a)
+	b = stringslice.Sort(b)
+	assert.DeepEqual(t, b, []string{"A", "b"})
+}
+
+func TestGetValues(t *testing.T) {
+	a := map[int]string{1: "a", 2: "b"}
+	b := stringslice.GetValues(a)
+	b = stringslice.Sort(b)
+	assert.DeepEqual(t, b, []string{"a", "b"})
 }
