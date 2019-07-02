@@ -36,6 +36,7 @@ func TestSubtraction(t *testing.T) {
 		result := ss.Subtract(test.args...).Slice()
 
 		assert.DeepEqual(t, test.expected, result)
+		assert.DeepEqual(t, stringslice.Sort(test.expected), stringslice.Difference(test.input, test.args))
 	}
 }
 
@@ -128,4 +129,32 @@ func TestGetValues(t *testing.T) {
 	b := stringslice.GetValues(a)
 	b = stringslice.Sort(b)
 	assert.DeepEqual(t, b, []string{"a", "b"})
+}
+
+func TestIntersect(t *testing.T) {
+	assert.DeepEqual(t, []string{"a", "b"}, stringslice.Intersect([]string{"a", "b"}, []string{"a", "b"}))
+	assert.DeepEqual(t, []string{}, stringslice.Intersect([]string{"a"}, []string{"b"}))
+	assert.DeepEqual(t, []string{"b"}, stringslice.Intersect([]string{"a", "b"}, []string{"b"}))
+	assert.DeepEqual(t, []string{"a"}, stringslice.Intersect([]string{"a"}, []string{"b", "a"}))
+}
+
+func TestSortedIndex(t *testing.T) {
+	s := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+	for i := 0; i < len(s); i++ {
+		assert.Equal(t, i, stringslice.Index(s, s[i]))
+		assert.Equal(t, i, stringslice.SortedIndex(s, s[i]))
+	}
+	assert.Equal(t, -1, stringslice.Index(s, ""))
+	assert.Equal(t, -1, stringslice.Index(s, "!"))
+	assert.Equal(t, -1, stringslice.SortedIndex(s, ""))
+	assert.Equal(t, -1, stringslice.SortedIndex(s, "!"))
+}
+
+func TestUnion(t *testing.T) {
+	assert.DeepEqual(t, []string{}, stringslice.Union([]string{}, []string{}))
+	assert.DeepEqual(t, []string{"A"}, stringslice.Union([]string{"A"}, []string{}))
+	assert.DeepEqual(t, []string{"B"}, stringslice.Union([]string{}, []string{"B"}))
+	assert.DeepEqual(t, []string{"a", "b"}, stringslice.Union([]string{"a"}, []string{"b"}))
+	assert.DeepEqual(t, []string{"a", "b"}, stringslice.Union([]string{"a", "a"}, []string{"b", "a"}))
+	assert.DeepEqual(t, []string{"a", "b", "z"}, stringslice.Union([]string{"a", "z"}, []string{"b", "a"}))
 }
