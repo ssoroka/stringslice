@@ -158,3 +158,18 @@ func TestUnion(t *testing.T) {
 	assert.DeepEqual(t, []string{"a", "b"}, stringslice.Union([]string{"a", "a"}, []string{"b", "a"}))
 	assert.DeepEqual(t, []string{"a", "b", "z"}, stringslice.Union([]string{"a", "z"}, []string{"b", "a"}))
 }
+
+func TestEach(t *testing.T) {
+	called := false
+	stringslice.Each([]string{"a", "b"}, func(i int, s string) {
+		if i == 0 {
+			assert.Equal(t, "a", s)
+		} else if i == 1 {
+			assert.Equal(t, "b", s)
+		} else {
+			t.Error("should not have hit this")
+		}
+		called = true
+	})
+	assert.Equal(t, true, called)
+}

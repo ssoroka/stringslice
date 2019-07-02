@@ -17,8 +17,8 @@ func Sort(ss []string) []string {
 	return ss2
 }
 
-// SortByInt returns a new, slice that is the sorted copy of the slice it was called on, using sortFunc to interpret the string as a sortable integer value. It does not mutate the original slice
-func SortByInt(ss []string, sortFunc func(slice []string, i, j int) bool) []string {
+// SortBy returns a new, slice that is the sorted copy of the slice it was called on, using sortFunc to interpret the string as a sortable integer value. It does not mutate the original slice
+func SortBy(ss []string, sortFunc func(slice []string, i, j int) bool) []string {
 	if ss == nil {
 		return nil
 	}
@@ -97,6 +97,31 @@ func Map(ss []string, funcInterface interface{}) []string {
 		result[i] = f(i, s)
 	}
 	return result
+}
+
+// Each iterates over each element in the slice and perform an operation on it.
+// Normal func structure is func(i int, s string).
+// Also accepts func structure func(s string)
+func Each(ss []string, funcInterface interface{}) {
+	if ss == nil {
+		return
+	}
+	if funcInterface == nil {
+		return
+	}
+	f := func(i int, s string) {
+		switch tf := funcInterface.(type) {
+		case func(int, string):
+			tf(i, s)
+		case func(string):
+			tf(s)
+		default:
+			panic(fmt.Sprintf("Each cannot understand function type %T", funcInterface))
+		}
+	}
+	for i, s := range ss {
+		f(i, s)
+	}
 }
 
 type AccumulatorFunc func(acc string, i int, s string) string
