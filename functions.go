@@ -225,3 +225,47 @@ func ToStringSlice(o interface{}) []string {
 	}
 	return result
 }
+
+func Filter(ss []string, funcInterface interface{}) []string {
+	f := func(i int, s string) bool {
+		switch tf := funcInterface.(type) {
+		case func(int, string) bool:
+			return tf(i, s)
+		case func(string) bool:
+			return tf(s)
+		default:
+			panic(fmt.Sprintf("Filter cannot understand function type %T", funcInterface))
+		}
+	}
+
+	result := []string{}
+
+	for i, s := range ss {
+		if f(i, s) {
+			result = append(result, s)
+		}
+	}
+	return result
+}
+
+func DeleteIf(ss []string, funcInterface interface{}) []string {
+	f := func(i int, s string) bool {
+		switch tf := funcInterface.(type) {
+		case func(int, string) bool:
+			return tf(i, s)
+		case func(string) bool:
+			return tf(s)
+		default:
+			panic(fmt.Sprintf("Filter cannot understand function type %T", funcInterface))
+		}
+	}
+
+	result := []string{}
+
+	for i, s := range ss {
+		if !f(i, s) {
+			result = append(result, s)
+		}
+	}
+	return result
+}

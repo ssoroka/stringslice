@@ -173,3 +173,19 @@ func TestEach(t *testing.T) {
 	})
 	assert.Equal(t, true, called)
 }
+
+func TestFilter(t *testing.T) {
+	result := stringslice.Filter([]string{"car1", "car2", "bus1", "bus2"}, func(i int, s string) bool {
+		return strings.HasPrefix(s, "car")
+	})
+
+	assert.DeepEqual(t, []string{"car1", "car2"}, result)
+}
+
+func TestDeleteIf(t *testing.T) {
+	result := stringslice.DeleteIf([]string{"car1", "car2", "bus1", "bus2"}, func(s string) bool {
+		return strings.HasPrefix(s, "car")
+	})
+
+	assert.DeepEqual(t, []string{"bus1", "bus2"}, result)
+}

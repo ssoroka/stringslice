@@ -20,6 +20,8 @@ Adds functions to string slices:
 - Last (last element in slice)
 - Any (true if len > 0)
 - ToStringSlice (converts anything like a []string slice to a []string slice, eg `type MyString string` and `[]MyString`)
+- Filter (select elements from the slice based on a selection function)
+- DeleteIf (reject elements from the slice if they match a selection function)
 
 Functions for operations on string slices that represent sets:
 
@@ -35,8 +37,6 @@ Functions that operate on maps and return string slices:
 
 Future support; perhaps (let me know if you'd like to see one of these – @ssoroka on twitter):
 
-- DeleteIf
-- Filter
 - Pop
 - Push
 - Shift
