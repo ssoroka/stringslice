@@ -64,10 +64,8 @@ or as a chainable StringSlice object
     return strings.ToUpper(s)
   }).Subtract("ALPHA").Uniq().Slice()
 
-  fmt.Println(s2)
+  // s2 == []string{"BRAVO", "CHARLIE", "DELTA", "ECHO"}
 ```
-
-prints out `[BRAVO CHARLIE DELTA ECHO]`
 
 See tests for more usage.
 
