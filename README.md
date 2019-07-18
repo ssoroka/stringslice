@@ -2,7 +2,7 @@
 
 See tests for example usage.
 
-Adds functions to string slices: 
+Adds functions for manipulating string slices: 
 
 - Sort (does not mutate)
 - SortBy (Sort, but supply your own sorting function)
@@ -45,7 +45,17 @@ Future support; perhaps (let me know if you'd like to see one of these – @ssor
 
 ## usage
 
-Functions are available as one-off functions, or as a chainable StringSlice object
+Functions are available as one-off functions, 
+
+```go
+  s := []string{"echo", "alpha", "bravo", "delta", "charlie", "Charlie"}
+
+  s2 := stringslice.Map(strings.ToUpper)
+
+  // s2 == []string{"ECHO", "ALPHA", "BRAVO", "DELTA", "CHARLIE", "CHARLIE"}
+```
+
+or as a chainable StringSlice object
 
 ```go
   s := []string{"echo", "alpha", "bravo", "delta", "charlie", "Charlie"}
