@@ -226,6 +226,14 @@ func ToStringSlice(o interface{}) []string {
 	return result
 }
 
+func StringSliceToInterfaceSlice(ss []string) []interface{} {
+	result := make([]interface{}, len(ss))
+	for i := range ss {
+		result[i] = ss[i]
+	}
+	return result
+}
+
 func Filter(ss []string, funcInterface interface{}) []string {
 	f := func(i int, s string) bool {
 		switch tf := funcInterface.(type) {

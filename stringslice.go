@@ -64,6 +64,11 @@ func (ss StringSlice) Slice() []string {
 	return ss.sl
 }
 
+// InterfaceSlice returns the stringslice typecast to a []interface slice, as some libraries expect this.
+func (ss StringSlice) InterfaceSlice() []interface{} {
+	return StringSliceToInterfaceSlice(ss.sl)
+}
+
 // Contains returns true if the string is in the slice.
 // Note: If you .Sort() the slice first, this function will do a log2(n) binary search through the list, which is much faster for large lists.
 func (ss StringSlice) Contains(s string) bool {
