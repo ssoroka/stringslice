@@ -60,9 +60,7 @@ or as a chainable StringSlice object
 ```go
   s := []string{"echo", "alpha", "bravo", "delta", "charlie", "Charlie"}
 
-  s2 := stringslice.New(s).Sort().Map(func(i int, s string) string {
-    return strings.ToUpper(s)
-  }).Subtract("ALPHA").Uniq().Slice()
+  s2 := stringslice.New(s).Sort().Map(strings.ToUpper).Subtract("ALPHA").Uniq().Slice()
 
   // s2 == []string{"BRAVO", "CHARLIE", "DELTA", "ECHO"}
 ```
