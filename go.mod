@@ -1,6 +1,6 @@
 module github.com/ssoroka/stringslice
 
-go 1.12
+go 1.18
 
 require (
 	github.com/google/go-cmp v0.3.0 // indirect

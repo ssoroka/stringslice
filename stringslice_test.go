@@ -77,7 +77,8 @@ func TestMap(t *testing.T) {
 
 	assert.DeepEqual(t, expected, result)
 
-	assert.DeepEqual(t, []string(nil), stringslice.New(nil).Map(nil).Slice())
+	var nilStringSlice []string
+	assert.DeepEqual(t, []string(nil), stringslice.New(nilStringSlice).Map(nil).Slice())
 	assert.DeepEqual(t, []string{}, stringslice.New([]string{}).Map(nil).Slice())
 	assert.DeepEqual(t, []string{"a"}, stringslice.New([]string{"a"}).Map(nil).Slice())
 
@@ -89,7 +90,7 @@ func TestReduce(t *testing.T) {
 	s := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
 
 	// sum up strings as if they were ints.
-	result := stringslice.New(s).Reduce("0", func(acc string, i int, s string) string {
+	result := stringslice.Reduce(s, "0", func(acc string, i int, s string) string {
 		accumulator, _ := strconv.Atoi(acc)
 		current, _ := strconv.Atoi(s)
 		s = strconv.Itoa(accumulator + current)
